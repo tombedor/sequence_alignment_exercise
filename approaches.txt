@@ -1,0 +1,29 @@
+Naive:
+- For two pairs:
+ - overlay the fragments such that 1/2 of each fragment is overlapping.
+ - If there is a match, return the new, combined fragment to the pool and remove the two smaller fragments.
+ - If there is not a match, increase the overlap by one nucleotide.
+Repeat until there is only one sequence left.
+
+Run time will be be n*n*l, where n is the number of fragments, and l is the length of a fragment.
+Storage space will be n*l.
+
+Marker sequence approach:
+- Create a dictionary, where each key is a subsequence of length M, and each value is a list of all fragment keys
+that contain the subsequence. Build this dict doing the following:
+- For each fragment:
+  - For all possible sequences of length M:
+    - If the sequence is marked "closed", move on to the next sequence.
+    - Else if the list of fragments that contain the sequence is greater than some constant C, mark the sequence closed
+    - Else add the fragment to the sequence's list.
+
+
+
+    
+
+
+Shortest common superstring problem, well documented.
+
+Compressed suffix trie
+
+https://books.google.com/books?id=7XUSn0IKQEgC&pg=PA95&lpg=PA95&dq=fast+tests+for+whether+a+string+is+a+substring&source=bl&ots=z8dJMUMP1h&sig=KNRmhem9MyLuHlUo4Zk-hPIB_YA&hl=en&sa=X&ved=0ahUKEwjh48fwkpXSAhUmxlQKHVlXApoQ6AEIPTAF#v=onepage&q=fast%20tests%20for%20whether%20a%20string%20is%20a%20substring&f=false
