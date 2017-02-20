@@ -51,3 +51,26 @@ class SequenceMap(object):
                 super_seq += current_seq['string']
             current_name = current_seq.get('next_seq_name')
         return super_seq
+
+
+class SuffixArray(object):
+    def __init__(self, input_string):
+        self.input_string = input_string
+        self.suffix_array = range(len(input_string))
+        self.suffix_array.sort(key=lambda i: input_string[i:])
+    def suffix_is_included(self, query, start_bound_idx = 0, end_bound_idx = None):
+        if end_bound_idx is None:
+            end_bound_idx = len(self.suffix_array)
+        search_idx = (end_bound_idx + start_bound_idx) / 2
+
+        suffix_array_idx = self.suffix_array[search_idx]
+        suffix_array_string = self.input_string[suffix_array_idx:]
+
+        if suffix_array_string == query:
+            return True
+        elif start_bound_idx == end_bound_idx:
+            return False
+        elif suffix_array_string > query:
+            return self.suffix_is_included(query, search_idx, end_bound_idx)
+        elif suffix_array_string < query:
+            return self.suffix_is_included(query, start_bound_idx, search_idx)
