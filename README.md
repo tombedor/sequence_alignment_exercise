@@ -10,23 +10,23 @@ data, the presence of long repeated sequences might break this assumption.
 ## Algorithm
 
 The data structure I used was a linked list. For each pair, I tried to overlay a "start" sequence on an "end" sequence.
-If I found a match, I recorded the index of overlap, and removed the "end" sequence from the list of unmatched
+If I found a match, I recorded the index of overlap, and removed the "end" sequence from a list of unmatched
 subsequences. The last sequence left from this list was the root of the linked list.
 
 Then, starting from the root, I concatenated each string (truncated at the point of overlap) to form the supersequence. 
 
 To test whether one "start" sequence overlapped with an "end" sequence, I took the first half of the "end" sequence and 
-tested whether it was a substring with the "start" sequence. If it overlapped at character N, I compared the last N 
+tested whether it was a substring of the "start" sequence. If it overlapped at character N, I compared the last N 
 characters of the "start" sequence with the first N characters of the "end" sequence.
  
-I estimated the run time of this approach to be O(n*n*l), where "n" is the number of sequences, and "l" is the
-approximate length of each sequences. The reasoning is that each string comparison is about O(l) in the worst case, when 
+I estimated the run time of this approach to be `O(n*n*l)`, where "n" is the number of sequences, and "l" is the
+approximate length of each sequences. The reasoning is that each string comparison is about `O(l)` in the worst case, when 
 only the last character differs between the two strings.
 
 ## Alternative Approach
 
-I looked into other data structures that could improve on this, and implemented a suffix tree in for string comparison.
-The idea for that was that I stored the sort order of each possible suffix of the "start" sequence. Then, a search for
+I looked into other data structures that could improve on this, and implemented a suffix tree for string comparison.
+For this, I first stored the sort order of each possible suffix of the "start" sequence. , a search for
 the "end" fragment would take O(log l) time with binary search. Since the "end" fragment wouldn't usually be an exact 
 suffix, when doing a binary search I truncated the search string to match the length of the "end" fragment.
 
