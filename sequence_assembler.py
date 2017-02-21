@@ -70,30 +70,11 @@ class SuffixArray(object):
         return self.input_string[string_idx:]
 
     def index(self, query_string, start_bound_array_idx = 0, end_bound_array_idx = None):
-        print('-'*15)
-
         if end_bound_array_idx is None:
             end_bound_array_idx = len(self.array) - 1
 
-        print("start idx = " + str(start_bound_array_idx))
-        print("end idx = " + str(end_bound_array_idx))
-
         search_idx = (end_bound_array_idx + start_bound_array_idx) / 2
-        print("search_idx = " + str(search_idx))
-
         comparison_string = self.suffix(search_idx)
-
-        print ("comparison_string = " + comparison_string)
-
-        # DEBUG
-        for idx in range(len(self.array)):
-            suffix = self.suffix(idx)
-            if comparison_string == suffix:
-                print "->" + suffix
-            else:
-                print suffix
-        # DEBUG
-
 
         if comparison_string == query_string:
             return self.array[search_idx]
