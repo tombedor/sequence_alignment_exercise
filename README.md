@@ -17,11 +17,12 @@ Then, starting from the root, I concatenated each string (truncated at the point
 
 To test whether one "start" sequence overlapped with an "end" sequence, I took the first half of the "end" sequence and 
 tested whether it was a substring of the "start" sequence. If it overlapped at character N, I compared the last N 
-characters of the "start" sequence with the first N characters of the "end" sequence.
+characters of the "start" sequence with the first N characters of the "end" sequence. If this was a match, I knew that
+the sequences overlapped.
  
 I estimated the run time of this approach to be `O(n*n*l)`, where "n" is the number of sequences, and "l" is the
-approximate length of each sequences. The reasoning is that each string comparison is about `O(l)` in the worst case, when 
-only the last character differs between the two strings.
+approximate length of each sequences. The reasoning is that I compare each string to every other string (`n*n`) and each
+string comparison is about `O(l)` in the worst case, when only the last character differs between the two strings.
 
 ## Alternative Approach
 
@@ -43,7 +44,7 @@ The supersequence is returned by:
 
 `SequenceAssembler('./FASTA_FILE_NAME.txt').super_sequence()`
 
-For testing, I used the data from the prompt email, and used the script `generate_test_data.py` to generate a few more
+For testing, I used the data from the prompt, and used the script `generate_test_data.py` to generate a few more
 test scripts.
  
 ## Files
