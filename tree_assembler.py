@@ -33,10 +33,16 @@ class SequenceMap(object):
     def get_overlap_idx(self, start_seq, end_seq):
         start_seq_string = start_seq['string']
         end_seq_string = end_seq['string']
-        overlap_length = max(len(start_seq_string), len(end_seq_string)) / 2
+        min_overlap_length = max(len(start_seq_string), len(end_seq_string)) / 2
+        min_overlap_string = end_seq_string[:min_overlap_length]
 
-        overlap_string = end_seq_string[:overlap_length]
-        return start_seq_string.find(overlap_string)
+        overlap_index = start_seq_string.find(min_overlap_string)
+        if overlap_index != -1 and len(start_seq_string[overlap_index:]) != len(min_overlap_string):
+            full_overlap_string = end_seq_string[:overlap_index]
+            return start_seq_string.find(full_overlap_string)
+        else:
+            return overlap_index
+
 
     def super_sequence(self):
         current_name = self.root_name
