@@ -56,21 +56,44 @@ class SequenceMap(object):
 class SuffixArray(object):
     def __init__(self, input_string):
         self.input_string = input_string
-        self.suffix_array = range(len(input_string))
-        self.suffix_array.sort(key=lambda i: input_string[i:])
-    def suffix_is_included(self, query, start_bound_idx = 0, end_bound_idx = None):
-        if end_bound_idx is None:
-            end_bound_idx = len(self.suffix_array)
-        search_idx = (end_bound_idx + start_bound_idx) / 2
+        self.array = range(len(input_string))
+        self.array.sort(key=lambda i: input_string[i:])
 
-        suffix_array_idx = self.suffix_array[search_idx]
-        suffix_array_string = self.input_string[suffix_array_idx:]
+    def suffix(self, array_index):
+        string_idx = self.array[array_index]
+        return self.input_string[string_idx:]
 
-        if suffix_array_string == query:
-            return True
-        elif start_bound_idx == end_bound_idx:
-            return False
-        elif suffix_array_string > query:
-            return self.suffix_is_included(query, search_idx, end_bound_idx)
-        elif suffix_array_string < query:
-            return self.suffix_is_included(query, start_bound_idx, search_idx)
+    def index(self, query_string, start_bound_array_idx = 0, end_bound_array_idx = None):
+        print('-'*15)
+
+        if end_bound_array_idx is None:
+            end_bound_array_idx = len(self.array) - 1
+
+        print("start idx = " + str(start_bound_array_idx))
+        print("end idx = " + str(end_bound_array_idx))
+
+        search_idx = (end_bound_array_idx + start_bound_array_idx) / 2
+        print("search_idx = " + str(search_idx))
+
+        comparison_string = self.suffix(search_idx)
+
+        print ("comparison_string = " + comparison_string)
+
+        # DEBUG
+        for idx in range(len(self.array)):
+            suffix = self.suffix(idx)
+            if comparison_string == suffix:
+                print "->" + suffix
+            else:
+                print suffix
+        # DEBUG
+
+
+        if comparison_string == query_string:
+            return self.array[search_idx]
+        elif start_bound_array_idx == end_bound_array_idx:
+            return -1
+        elif comparison_string < query_string:
+            return self.index(query_string, search_idx + 1, end_bound_array_idx)
+        elif comparison_string > query_string:
+            return self.index(query_string, start_bound_array_idx, search_idx - 1)
