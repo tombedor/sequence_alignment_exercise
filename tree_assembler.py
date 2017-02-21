@@ -12,7 +12,8 @@ class SequenceMap(object):
             self.sequence_graph[sequence.id] = {
                     'string':seq_string, 
                     'next_seq_name': None,
-                    'next_seq_overlap_idx': None
+                    'next_seq_overlap_idx': None,
+                    'suffix_array': SuffixArray(seq_string)
                     }
 
         unmatched_end_seq_names= self.sequence_graph.keys()
@@ -33,10 +34,17 @@ class SequenceMap(object):
     def get_overlap_idx(self, start_seq, end_seq):
         start_seq_string = start_seq['string']
         end_seq_string = end_seq['string']
-        overlap_length = max(len(start_seq_string), len(end_seq_string)) / 2
 
-        overlap_string = end_seq_string[:overlap_length]
-        return start_seq_string.find(overlap_string)
+        min_overlap_length = max(len(start_seq_string), len(end_seq_string)) / 2
+        min_overlap_string = end_seq_string[:min_overlap_length]
+
+        min_overlap_index= start_seq['suffix_array'].index(min_overlap_string)
+
+        if min_overlap_index != -1 and len(start_seq_string[min_overlap_index:]) != len(min_overlap_string):
+            full_overlap_string = end_seq_string[:min_overlap_index]
+            return start_seq['suffix_array'].index(full_overlap_string)
+        else:
+            return min_overlap_index
 
     def super_sequence(self):
         current_name = self.root_name
@@ -64,28 +72,35 @@ class SuffixArray(object):
         return self.input_string[string_idx:]
 
     def index(self, query_string, start_bound_array_idx = 0, end_bound_array_idx = None):
-        print('-'*15)
+        #print('-'*15)
+        #print ("query string = " + query_string)
 
         if end_bound_array_idx is None:
             end_bound_array_idx = len(self.array) - 1
+        if start_bound_array_idx > end_bound_array_idx:
+            return -1
 
-        print("start idx = " + str(start_bound_array_idx))
-        print("end idx = " + str(end_bound_array_idx))
+
+        #print("start idx = " + str(start_bound_array_idx))
+        #print("end idx = " + str(end_bound_array_idx))
 
         search_idx = (end_bound_array_idx + start_bound_array_idx) / 2
-        print("search_idx = " + str(search_idx))
+        #print("search_idx = " + str(search_idx))
 
-        comparison_string = self.suffix(search_idx)
+        max_length_of_comparison_string = len(query_string)
+        comparison_string = self.suffix(search_idx)[0:max_length_of_comparison_string]
 
-        print ("comparison_string = " + comparison_string)
+        #print ("comparison_string = " + comparison_string)
 
         # DEBUG
-        for idx in range(len(self.array)):
+        for idx in range(start_bound_array_idx, end_bound_array_idx + 1):
             suffix = self.suffix(idx)
             if comparison_string == suffix:
-                print "->" + suffix
+                #print "->" + suffix
+                next
             else:
-                print suffix
+                #print suffix
+                next
         # DEBUG
 
 
