@@ -26,7 +26,7 @@ only the last character differs between the two strings.
 ## Alternative Approach
 
 I looked into other data structures that could improve on this, and implemented a suffix tree for string comparison.
-For this, I first stored the sort order of each possible suffix of the "start" sequence. , a search for
+For this, I first stored the sort order of each possible suffix of the "start" sequence. Using this array, a search for
 the "end" fragment would take O(log l) time with binary search. Since the "end" fragment wouldn't usually be an exact 
 suffix, when doing a binary search I truncated the search string to match the length of the "end" fragment.
 
@@ -36,21 +36,22 @@ building the suffix tree. I'm not sure why.
 ## Usage
 
 The script uses BioPython to parse FASTA. To install:
-easy_install -f http://biopython.org/DIST/ biopython
+
+`easy_install -f http://biopython.org/DIST/ biopython`
 
 The supersequence is returned by:
+
 `SequenceAssembler('./FASTA_FILE_NAME.txt').super_sequence()`
 
 For testing, I used the data from the prompt email, and used the script generate_test_data.py to generate a few more
 test scripts.
  
- ## Files
+## Files
  
-My solution is in sequence_assembler.py. The file can run the larger data set with:
+My solution is in `sequence_assembler.py`. The file can run the larger data set with:
 `python run.py`
 
 Tests can be run with:
 `python test.py`
 
-The file alternative_sequence_assembler_with_suffix_array.py has the alternative implementation with suffix arrays.
-
+The file `alternative_sequence_assembler_with_suffix_array.py` has the alternative implementation with suffix arrays.
