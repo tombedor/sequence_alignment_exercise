@@ -1,5 +1,5 @@
 from Bio import SeqIO
-class SequenceMap(object):
+class SequenceAssembler(object):
     def __init__(self, input_file):
         self.raw_sequences = SeqIO.parse(open(input_file),'fasta')
         self.build_sequence_graph_and_set_root()

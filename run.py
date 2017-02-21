@@ -1,7 +1,6 @@
-from tree_assembler import SequenceMap
-from tree_assembler import SuffixArray
-import timeit
+from sequence_assembler import SequenceAssembler
+from sequence_assembler import SuffixArray
 
 
-print(SequenceMap('./coding_challenge_data_set.txt').super_sequence())
+print(SequenceAssembler('./coding_challenge_data_set.txt').super_sequence())
 
