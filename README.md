@@ -43,7 +43,7 @@ The supersequence is returned by:
 
 `SequenceAssembler('./FASTA_FILE_NAME.txt').super_sequence()`
 
-For testing, I used the data from the prompt email, and used the script generate_test_data.py to generate a few more
+For testing, I used the data from the prompt email, and used the script `generate_test_data.py` to generate a few more
 test scripts.
  
 ## Files
