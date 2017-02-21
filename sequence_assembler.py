@@ -57,30 +57,3 @@ class SequenceAssembler(object):
                 super_seq += current_seq['string']
             current_name = current_seq.get('next_seq_name')
         return super_seq
-
-
-class SuffixArray(object):
-    def __init__(self, input_string):
-        self.input_string = input_string
-        self.array = range(len(input_string))
-        self.array.sort(key=lambda i: input_string[i:])
-
-    def suffix(self, array_index):
-        string_idx = self.array[array_index]
-        return self.input_string[string_idx:]
-
-    def index(self, query_string, start_bound_array_idx = 0, end_bound_array_idx = None):
-        if end_bound_array_idx is None:
-            end_bound_array_idx = len(self.array) - 1
-
-        search_idx = (end_bound_array_idx + start_bound_array_idx) / 2
-        comparison_string = self.suffix(search_idx)
-
-        if comparison_string == query_string:
-            return self.array[search_idx]
-        elif start_bound_array_idx == end_bound_array_idx:
-            return -1
-        elif comparison_string < query_string:
-            return self.index(query_string, search_idx + 1, end_bound_array_idx)
-        elif comparison_string > query_string:
-            return self.index(query_string, start_bound_array_idx, search_idx - 1)
